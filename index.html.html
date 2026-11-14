@@ -1,0 +1,1527 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Media Pembelajaran Interaktif Matematika Kelas 6 SD - Materi Perkalian</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Nunito & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Nunito', 'Plus Jakarta Sans', 'sans-serif'],
+            display: ['Plus Jakarta Sans', 'Nunito', 'sans-serif'],
+          },
+          colors: {
+            edu: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              200: '#bfdbfe',
+              300: '#93c5fd',
+              400: '#60a5fa',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              800: '#1e40af',
+              900: '#1e3a8a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #f0f7ff;
+      background-image: 
+        radial-gradient(#bfdbfe 1.2px, transparent 1.2px),
+        radial-gradient(#fde68a 1.2px, #f0f7ff 1.2px);
+      background-size: 38px 38px;
+      background-position: 0 0, 19px 19px;
+      overflow-x: hidden;
+    }
+
+    @keyframes floatBadge {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-5px) rotate(3deg); }
+    }
+    .animate-float {
+      animation: floatBadge 3.5s ease-in-out infinite;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.92); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .animate-pop {
+      animation: popIn 0.25s ease-out forwards;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #dbeafe;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #60a5fa;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #2563eb;
+    }
+  </style>
+</head>
+<body class="text-slate-800 antialiased selection:bg-amber-200 selection:text-slate-900">
+
+  <!-- Toast Notifikasi Non-Blocking -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- HEADER UTAMA -->
+  <header class="bg-gradient-to-r from-indigo-700 via-blue-600 to-sky-500 text-white shadow-lg border-b-4 border-amber-300 sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 py-3 flex flex-col lg:flex-row items-center justify-between gap-3">
+      
+      <!-- Identitas Aplikasi -->
+      <div class="flex items-center gap-3 w-full lg:w-auto justify-between lg:justify-start">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-amber-300 text-indigo-900 flex items-center justify-center font-black text-2xl sm:text-3xl shadow-md border-2 border-white animate-float shrink-0">
+            ×
+          </div>
+          <div>
+            <span class="inline-block text-[10px] sm:text-xs font-extrabold uppercase tracking-wider bg-white/20 px-2.5 py-0.5 rounded-full text-amber-200">
+              Kurikulum Merdeka • SD / MI
+            </span>
+            <h1 class="text-sm sm:text-lg md:text-xl font-black tracking-tight text-white leading-snug mt-0.5">
+              MEDIA PEMBELAJARAN INTERAKTIF MATEMATIKA KELAS 6 SD - MATERI PERKALIAN
+            </h1>
+          </div>
+        </div>
+      </div>
+
+      <!-- Input Nama Siswa & Kontrol Suara -->
+      <div class="flex flex-wrap items-center gap-2 w-full lg:w-auto justify-center lg:justify-end bg-indigo-950/35 px-3 py-2 rounded-2xl border border-white/20">
+        <div class="flex items-center gap-1.5 bg-white/95 rounded-xl px-2.5 py-1 text-slate-800">
+          <span class="text-sm">🧑‍🎓</span>
+          <input 
+            type="text" 
+            id="student-name-input" 
+            placeholder="Ketik Nama Siswa..." 
+            onchange="updateStudentName()"
+            class="bg-transparent text-xs sm:text-sm font-extrabold focus:outline-none w-32 sm:w-40 text-slate-800 placeholder-slate-400"
+          />
+          <button onclick="updateStudentName()" class="text-[11px] font-black bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded-lg transition">
+            Simpan
+          </button>
+        </div>
+
+        <button id="btn-sound-toggle" onclick="toggleSoundSystem()" class="px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-900 font-black text-xs sm:text-sm shadow transition active:scale-95 flex items-center gap-1.5 shrink-0">
+          <span id="sound-status-icon">🔊</span>
+          <span id="sound-status-text">Suara Aktif</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- BAR NAVIGASI MODUL -->
+    <nav class="bg-white/95 backdrop-blur-md border-t border-blue-100 text-slate-700 shadow-sm">
+      <div class="max-w-7xl mx-auto px-2 sm:px-6 py-2 flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar" id="main-nav-tabs">
+        <!-- Di-render via JS -->
+      </div>
+    </nav>
+  </header>
+
+  <!-- KONTEN UTAMA -->
+  <main class="max-w-7xl mx-auto px-3 sm:px-6 py-6 min-h-[calc(100vh-145px)]">
+
+    <!-- =================================================================== -->
+    <!-- TAB 1: TUJUAN PEMBELAJARAN & KKTP                                   -->
+    <!-- =================================================================== -->
+    <section id="panel-tp" class="tab-panel space-y-6 animate-pop">
+      <!-- Banner Sambutan -->
+      <div class="bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 rounded-3xl p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="space-y-2.5 max-w-2xl">
+          <span class="px-3 py-1 rounded-full bg-amber-300 text-indigo-950 font-black text-xs uppercase tracking-wider">
+            Panduan Belajar Kelas 6 SD
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-black leading-tight">
+            Halo <span id="welcome-student-display" class="text-amber-300 underline decoration-wavy">Sahabat Matematika</span>! Siap Menguasai Perkalian?
+          </h2>
+          <p class="text-sm sm:text-base text-blue-100 leading-relaxed">
+            Di modul ini kamu akan mempelajari perkalian bilangan bulat/cacah besar, perkalian pecahan dan desimal, serta memecahkan soal cerita seru melalui simulasi interaktif, video animasi, game edukasi, dan kuis evaluasi.
+          </p>
+          <div class="pt-2 flex flex-wrap gap-3">
+            <button onclick="switchTab('materi')" class="px-5 py-2.5 rounded-2xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-sm shadow-lg transition active:scale-95">
+              🚀 Mulai Belajar Materi
+            </button>
+            <button onclick="readTPAndKKTP()" class="px-4 py-2.5 rounded-2xl bg-white/15 hover:bg-white/25 text-white border border-white/30 font-extrabold text-sm transition flex items-center gap-2">
+              <span>🔊</span> Dengarkan Tujuan Belajar
+            </button>
+          </div>
+        </div>
+
+        <div class="bg-white/15 backdrop-blur-md p-5 rounded-3xl border border-white/25 text-center shrink-0 w-full md:w-64">
+          <div class="text-5xl mb-2">🎯</div>
+          <p class="text-xs font-extrabold uppercase tracking-wider text-amber-200">Cakupan Kompetensi</p>
+          <p class="text-lg font-black mt-1">3 Tujuan Pembelajaran</p>
+          <p class="text-xs text-blue-100 mt-1">Bilangan Cacah • Pecahan & Desimal • Soal Cerita</p>
+        </div>
+      </div>
+
+      <!-- Bagian A: Tujuan Pembelajaran (TP) -->
+      <div class="bg-white rounded-3xl shadow-lg border-2 border-blue-100 p-6 sm:p-8">
+        <div class="flex items-center gap-3 mb-5">
+          <span class="w-10 h-10 rounded-2xl bg-blue-600 text-white font-black flex items-center justify-center text-lg shadow">A</span>
+          <div>
+            <h3 class="text-xl font-black text-slate-800">Tujuan Pembelajaran (TP)</h3>
+            <p class="text-xs sm:text-sm text-slate-500 font-semibold">Target kemampuan yang akan dikuasai peserta didik kelas 6 SD</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div class="p-5 rounded-3xl bg-blue-50 border-2 border-blue-200 hover:border-blue-400 transition">
+            <span class="inline-block px-3 py-1 rounded-xl bg-blue-600 text-white font-black text-xs mb-3">TP 1 • Bilangan Cacah/Bulat</span>
+            <h4 class="font-black text-slate-800 text-base mb-1.5">Perkalian Multi-Digit</h4>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              Memahami konsep dan melakukan operasi hitung perkalian bilangan cacah atau bilangan bulat multi-digit (puluhan, ratusan, hingga ribuan) dengan tepat.
+            </p>
+          </div>
+
+          <div class="p-5 rounded-3xl bg-indigo-50 border-2 border-indigo-200 hover:border-indigo-400 transition">
+            <span class="inline-block px-3 py-1 rounded-xl bg-indigo-600 text-white font-black text-xs mb-3">TP 2 • Pecahan & Desimal</span>
+            <h4 class="font-black text-slate-800 text-base mb-1.5">Perkalian Pecahan & Desimal</h4>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              Menghitung hasil perkalian pecahan biasa, pecahan campuran, dan bilangan desimal secara akurat menggunakan konsep luas maupun pergeseran tanda koma.
+            </p>
+          </div>
+
+          <div class="p-5 rounded-3xl bg-amber-50 border-2 border-amber-200 hover:border-amber-400 transition">
+            <span class="inline-block px-3 py-1 rounded-xl bg-amber-500 text-white font-black text-xs mb-3">TP 3 • Pemecahan Masalah</span>
+            <h4 class="font-black text-slate-800 text-base mb-1.5">Soal Cerita Kontekstual</h4>
+            <p class="text-sm text-slate-700 leading-relaxed">
+              Menyelesaikan masalah kontekstual (soal cerita) dalam kehidupan sehari-hari yang berkaitan dengan operasi perkalian bilangan bulat, pecahan, dan desimal.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bagian B: KKTP Kurikulum Merdeka -->
+      <div class="bg-white rounded-3xl shadow-lg border-2 border-blue-100 p-6 sm:p-8">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+          <div class="flex items-center gap-3">
+            <span class="w-10 h-10 rounded-2xl bg-emerald-600 text-white font-black flex items-center justify-center text-lg shadow">B</span>
+            <div>
+              <h3 class="text-xl font-black text-slate-800">Kriteria Ketercapaian Tujuan Pembelajaran (KKTP)</h3>
+              <p class="text-xs sm:text-sm text-slate-500 font-semibold">Rubrik Deskripsi Kriteria 4 Tingkat (Pendekatan Kualitatif & Interval Skor Kurikulum Merdeka)</p>
+            </div>
+          </div>
+          <span class="px-3.5 py-1.5 rounded-full bg-emerald-100 text-emerald-800 font-extrabold text-xs">
+            Ketuntasan Minimal: Predikat Baik (Skor ≥ 70)
+          </span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse rounded-2xl overflow-hidden text-xs sm:text-sm">
+            <thead>
+              <tr class="bg-slate-800 text-white">
+                <th class="p-3.5 font-extrabold w-44">Tujuan Pembelajaran</th>
+                <th class="p-3.5 font-extrabold bg-rose-700">Belum Memenuhi<br><span class="text-[11px] font-normal">(Skor 0 – 49)</span></th>
+                <th class="p-3.5 font-extrabold bg-amber-600">Cukup<br><span class="text-[11px] font-normal">(Skor 50 – 69)</span></th>
+                <th class="p-3.5 font-extrabold bg-sky-700">Baik<br><span class="text-[11px] font-normal">(Skor 70 – 84)</span></th>
+                <th class="p-3.5 font-extrabold bg-emerald-700">Sangat Baik<br><span class="text-[11px] font-normal">(Skor 85 – 100)</span></th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 bg-slate-50/60 font-medium text-slate-700">
+              <tr>
+                <td class="p-3.5 font-black text-blue-900 bg-blue-50/70">TP 1: Perkalian Bilangan Cacah / Bulat Multi-Digit</td>
+                <td class="p-3.5 bg-rose-50/50">Belum memahami konsep nilai tempat dan sering keliru melakukan perkalian dasar maupun bersusun.</td>
+                <td class="p-3.5 bg-amber-50/50">Mampu mengalikan bilangan 2 digit dengan bantuan tabel, namun masih sering lupa teknik menyimpan pada perkalian bersusun.</td>
+                <td class="p-3.5 bg-sky-50/50">Mampu menghitung perkalian bilangan multi-digit dengan teknik bersusun secara tepat dan sistematis.</td>
+                <td class="p-3.5 bg-emerald-50/70 font-semibold text-slate-800">Mampu menghitung perkalian multi-digit secara cepat, akurat, serta menjelaskan strategi nilai tempat dengan mandiri.</td>
+              </tr>
+              <tr>
+                <td class="p-3.5 font-black text-indigo-900 bg-indigo-50/70">TP 2: Perkalian Pecahan & Desimal</td>
+                <td class="p-3.5 bg-rose-50/50">Belum dapat membedakan aturan penjumlahan dan perkalian pecahan serta salah meletakkan koma desimal.</td>
+                <td class="p-3.5 bg-amber-50/50">Dapat mengalikan pecahan biasa sederhana, tetapi masih kesulitan mengubah pecahan campuran atau menghitung angka di belakang koma.</td>
+                <td class="p-3.5 bg-sky-50/50">Mampu menghitung perkalian pecahan biasa, pecahan campuran, dan bilangan desimal dengan langkah yang benar dan menyederhanakannya.</td>
+                <td class="p-3.5 bg-emerald-50/70 font-semibold text-slate-800">Sangat terampil mengoperasikan perkalian pecahan campuran dan desimal kompleks serta mampu membuktikannya lewat visualisasi luas.</td>
+              </tr>
+              <tr>
+                <td class="p-3.5 font-black text-amber-900 bg-amber-50/70">TP 3: Soal Cerita Kontekstual</td>
+                <td class="p-3.5 bg-rose-50/50">Belum mampu menerjemahkan informasi pada soal cerita ke dalam kalimat matematika perkalian.</td>
+                <td class="p-3.5 bg-amber-50/50">Dapat menuliskan kalimat matematika dengan bimbingan, namun masih keliru pada tahap perhitungan akhir atau satuan.</td>
+                <td class="p-3.5 bg-sky-50/50">Mampu menganalisis soal cerita sehari-hari, menyusun model perkalian, dan menemukan solusi akhir yang tepat.</td>
+                <td class="p-3.5 bg-emerald-50/70 font-semibold text-slate-800">Mampu memecahkan soal cerita multi-langkah secara mandiri, teliti memeriksa satuan, dan menyimpulkan jawaban secara logis.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- TAB 2: MATERI PEMBELAJARAN INTERAKTIF & VISUALIZER                  -->
+    <!-- =================================================================== -->
+    <section id="panel-materi" class="tab-panel hidden space-y-6 animate-pop">
+      <div class="bg-white rounded-3xl shadow-lg border-2 border-blue-100 overflow-hidden">
+        <div class="bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-5 text-white flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <span class="text-xs font-extrabold uppercase tracking-wider bg-white/20 px-3 py-1 rounded-full">Eksplorasi Konsep & Simulasi</span>
+            <h2 class="text-xl sm:text-2xl font-black mt-1">Materi Interaktif Perkalian Kelas 6 SD</h2>
+          </div>
+          <!-- Sub-navigasi 4 Topik Materi -->
+          <div class="flex flex-wrap gap-1.5">
+            <button onclick="switchMateriSub('bulat')" id="sub-btn-bulat" class="px-3.5 py-2 rounded-xl bg-amber-400 text-slate-950 font-black text-xs sm:text-sm shadow">1. Bilangan Bulat</button>
+            <button onclick="switchMateriSub('pecahan')" id="sub-btn-pecahan" class="px-3.5 py-2 rounded-xl bg-white/15 hover:bg-white/25 text-white font-extrabold text-xs sm:text-sm">2. Pecahan</button>
+            <button onclick="switchMateriSub('desimal')" id="sub-btn-desimal" class="px-3.5 py-2 rounded-xl bg-white/15 hover:bg-white/25 text-white font-extrabold text-xs sm:text-sm">3. Desimal</button>
+            <button onclick="switchMateriSub('cerita')" id="sub-btn-cerita" class="px-3.5 py-2 rounded-xl bg-white/15 hover:bg-white/25 text-white font-extrabold text-xs sm:text-sm">4. Soal Cerita</button>
+          </div>
+        </div>
+
+        <div class="p-6 sm:p-8">
+          <!-- SUB-MATERI 1: PERKALIAN BILANGAN BULAT / CACAH MULTI-DIGIT -->
+          <div id="materi-sub-bulat" class="space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              <div class="lg:col-span-6 space-y-4">
+                <span class="px-3 py-1 rounded-full bg-blue-100 text-blue-800 font-black text-xs">Konsep Dasar (TP 1)</span>
+                <h3 class="text-xl font-black text-slate-800">Perkalian Bilangan Bulat & Bersusun</h3>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                  Perkalian adalah <strong>penjumlahan berulang</strong> dari bilangan yang sama. Untuk mengalikan bilangan besar (multi-digit), kita dapat menggunakan <strong>metode bersusun</strong> berdasarkan nilai tempat (satuan, puluhan, ratusan) maupun aturan tanda bilangan bulat:
+                </p>
+                <div class="bg-blue-50 p-4 rounded-2xl border border-blue-200 space-y-2 text-xs sm:text-sm">
+                  <p class="font-black text-blue-900">📌 Aturan Tanda Perkalian Bilangan Bulat:</p>
+                  <div class="grid grid-cols-2 gap-2 font-bold">
+                    <div class="bg-white p-2.5 rounded-xl border border-blue-100 text-emerald-700">(+) × (+) = (+) Positif</div>
+                    <div class="bg-white p-2.5 rounded-xl border border-blue-100 text-emerald-700">(−) × (−) = (+) Positif</div>
+                    <div class="bg-white p-2.5 rounded-xl border border-blue-100 text-rose-600">(+) × (−) = (−) Negatif</div>
+                    <div class="bg-white p-2.5 rounded-xl border border-blue-100 text-rose-600">(−) × (+) = (−) Negatif</div>
+                  </div>
+                </div>
+                <button onclick="speakText('Perkalian bilangan bulat multi-digit dilakukan dengan mengalikan setiap angka berdasarkan nilai tempatnya, mulai dari satuan lalu puluhan. Ingat juga, tanda sama menghasilkan positif, tanda berbeda menghasilkan negatif.')" class="px-4 py-2 rounded-xl bg-blue-100 hover:bg-blue-200 text-blue-800 font-extrabold text-xs flex items-center gap-2">
+                  <span>🔊</span> Dengarkan Penjelasan Konsep
+                </button>
+              </div>
+
+              <!-- Kalkulator Langkah-demi-Langkah Perkalian Bersusun -->
+              <div class="lg:col-span-6 bg-slate-50 p-5 rounded-3xl border-2 border-blue-200 space-y-4">
+                <div class="flex items-center justify-between">
+                  <h4 class="font-black text-base text-blue-900">🧮 Simulasi Perkalian Bersusun Interaktif</h4>
+                  <span class="text-[11px] font-bold bg-blue-600 text-white px-2.5 py-0.5 rounded-full">Coba Ubah Angka!</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <div class="flex-1">
+                    <label class="text-xs font-extrabold text-slate-600">Bilangan 1 (10 - 999)</label>
+                    <input type="number" id="calc-int-a" value="245" min="-999" max="999" oninput="renderLongMultiplication()" class="w-full mt-1 px-3 py-2 rounded-xl border-2 border-blue-300 font-black text-center text-lg bg-white" />
+                  </div>
+                  <span class="text-2xl font-black text-blue-600 pt-5">×</span>
+                  <div class="flex-1">
+                    <label class="text-xs font-extrabold text-slate-600">Bilangan 2 (2 - 99)</label>
+                    <input type="number" id="calc-int-b" value="34" min="-99" max="99" oninput="renderLongMultiplication()" class="w-full mt-1 px-3 py-2 rounded-xl border-2 border-blue-300 font-black text-center text-lg bg-white" />
+                  </div>
+                </div>
+
+                <!-- Output Bersusun -->
+                <div id="long-mult-output" class="bg-slate-900 text-emerald-300 font-mono p-4 rounded-2xl text-sm sm:text-base leading-relaxed shadow-inner">
+                  <!-- Diisi otomatis oleh JS -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SUB-MATERI 2: PERKALIAN PECAHAN DENGAN GRID LUAS VISUAL -->
+          <div id="materi-sub-pecahan" class="hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              <div class="lg:col-span-6 space-y-4">
+                <span class="px-3 py-1 rounded-full bg-indigo-100 text-indigo-800 font-black text-xs">Konsep Luas & Rumus (TP 2)</span>
+                <h3 class="text-xl font-black text-slate-800">Perkalian Pecahan Biasa & Campuran</h3>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                  Untuk mengalikan dua pecahan biasa, kita cukup mengalikan <strong>pembilang dengan pembilang</strong> dan <strong>penyebut dengan penyebut</strong>. Jika terdapat <strong>pecahan campuran</strong>, ubah terlebih dahulu menjadi pecahan biasa!
+                </p>
+                <div class="bg-indigo-50 p-4 rounded-2xl border border-indigo-200 space-y-2 text-xs sm:text-sm">
+                  <p class="font-black text-indigo-900">📐 Rumus & Langkah Utama:</p>
+                  <p class="font-bold text-slate-800 bg-white p-3 rounded-xl border border-indigo-100 text-center text-base">
+                    (a / b) × (c / d) = (a × c) / (b × d)
+                  </p>
+                  <p class="text-slate-600">Contoh pecahan campuran: <strong>1 ½ × ⅔</strong> = (3/2) × (2/3) = 6/6 = <strong>1</strong>.</p>
+                </div>
+              </div>
+
+              <!-- Visualisasi Grid Arsiran Pecahan -->
+              <div class="lg:col-span-6 bg-slate-50 p-5 rounded-3xl border-2 border-indigo-200 space-y-4">
+                <h4 class="font-black text-base text-indigo-900">🎨 Visualisasi Model Luas Perkalian Pecahan</h4>
+                <div class="grid grid-cols-2 gap-3">
+                  <div class="bg-white p-3 rounded-2xl border border-indigo-200 text-center">
+                    <p class="text-xs font-extrabold text-blue-600 mb-1">Pecahan 1 (Kolom Biru)</p>
+                    <div class="flex items-center justify-center gap-1.5">
+                      <select id="frac-n1" onchange="renderFractionGrid()" class="px-2 py-1 rounded-lg border font-black">
+                        <option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4</option>
+                      </select>
+                      <span class="font-black">/</span>
+                      <select id="frac-d1" onchange="renderFractionGrid()" class="px-2 py-1 rounded-lg border font-black">
+                        <option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="bg-white p-3 rounded-2xl border border-indigo-200 text-center">
+                    <p class="text-xs font-extrabold text-amber-600 mb-1">Pecahan 2 (Baris Kuning)</p>
+                    <div class="flex items-center justify-center gap-1.5">
+                      <select id="frac-n2" onchange="renderFractionGrid()" class="px-2 py-1 rounded-lg border font-black">
+                        <option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
+                      </select>
+                      <span class="font-black">/</span>
+                      <select id="frac-d2" onchange="renderFractionGrid()" class="px-2 py-1 rounded-lg border font-black">
+                        <option value="2">2</option><option value="3">3</option><option value="4" selected>4</option><option value="5">5</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Grid Visual Kotak -->
+                <div class="flex flex-col sm:flex-row items-center gap-4 bg-white p-4 rounded-2xl border border-indigo-100">
+                  <div id="fraction-visual-grid" class="grid gap-1 w-44 h-44 shrink-0 border-2 border-slate-700 p-1 rounded-xl bg-slate-100"></div>
+                  <div id="fraction-visual-result" class="text-xs sm:text-sm space-y-1.5 font-bold text-slate-700"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SUB-MATERI 3: PERKALIAN BILANGAN DESIMAL -->
+          <div id="materi-sub-desimal" class="hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              <div class="lg:col-span-6 space-y-4">
+                <span class="px-3 py-1 rounded-full bg-teal-100 text-teal-800 font-black text-xs">Aturan Tanda Koma (TP 2)</span>
+                <h3 class="text-xl font-black text-slate-800">Trik Cepat Perkalian Bilangan Desimal</h3>
+                <p class="text-sm text-slate-600 leading-relaxed">
+                  Mengalikan bilangan desimal sangat mudah dengan 3 langkah ajaib:
+                </p>
+                <ol class="space-y-2 text-xs sm:text-sm text-slate-700 font-semibold list-decimal pl-5 bg-teal-50 p-4 rounded-2xl border border-teal-200">
+                  <li><strong>Abaikan tanda koma</strong> sementara, lalu kalikan kedua bilangan seperti bilangan bulat biasa.</li>
+                  <li><strong>Hitung total angka di belakang koma</strong> dari kedua bilangan soal.</li>
+                  <li><strong>Letakkan tanda koma</strong> pada hasil akhir dari kanan ke kiri sebanyak jumlah angka di belakang koma tadi.</li>
+                </ol>
+              </div>
+
+              <!-- Kalkulator Interaktif Desimal -->
+              <div class="lg:col-span-6 bg-slate-50 p-5 rounded-3xl border-2 border-teal-200 space-y-4">
+                <h4 class="font-black text-base text-teal-900">🔢 Laboratorium Pergeseran Koma Desimal</h4>
+                <div class="flex items-center gap-3">
+                  <div class="flex-1">
+                    <label class="text-xs font-extrabold text-slate-600">Desimal 1</label>
+                    <input type="number" step="0.1" id="dec-a" value="1.25" oninput="renderDecimalStep()" class="w-full mt-1 px-3 py-2 rounded-xl border-2 border-teal-300 font-black text-center text-lg bg-white" />
+                  </div>
+                  <span class="text-2xl font-black text-teal-600 pt-5">×</span>
+                  <div class="flex-1">
+                    <label class="text-xs font-extrabold text-slate-600">Desimal 2</label>
+                    <input type="number" step="0.1" id="dec-b" value="0.4" oninput="renderDecimalStep()" class="w-full mt-1 px-3 py-2 rounded-xl border-2 border-teal-300 font-black text-center text-lg bg-white" />
+                  </div>
+                </div>
+                <div id="decimal-step-output" class="bg-white p-4 rounded-2xl border border-teal-200 text-xs sm:text-sm space-y-2 font-semibold text-slate-700"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SUB-MATERI 4: SOAL CERITA KONTEKSTUAL & PEMBAHASAN -->
+          <div id="materi-sub-cerita" class="hidden space-y-5">
+            <div class="bg-amber-50 p-4 rounded-2xl border border-amber-200 flex items-center justify-between gap-3">
+              <p class="text-xs sm:text-sm font-bold text-amber-950">
+                💡 <strong>Strategi 3 Langkah Soal Cerita (TP 3):</strong> (1) Tulis apa yang <em>Diketahui</em>, (2) Susun <em>Kalimat Matematika Perkalian</em>, (3) Hitung dan tulis <em>Kesimpulan beserta Satuannya</em>.
+              </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <div class="bg-white p-5 rounded-3xl border-2 border-blue-200 shadow-sm space-y-3">
+                <span class="px-2.5 py-1 rounded-lg bg-blue-600 text-white font-black text-xs">Contoh 1 • Bilangan Cacah</span>
+                <p class="text-sm font-bold text-slate-800">
+                  Sebuah perpustakaan sekolah membeli <strong>24 rak buku baru</strong>. Setiap rak dapat menampung <strong>135 buku bacaan</strong>. Berapa total buku yang dapat ditampung seluruh rak?
+                </p>
+                <div class="bg-blue-50 p-3 rounded-2xl text-xs space-y-1 text-slate-700">
+                  <p><strong>Diketahui:</strong> 24 rak, masing-masing 135 buku.</p>
+                  <p><strong>Operasi:</strong> 24 × 135 = <strong>3.240</strong></p>
+                  <p class="text-blue-800 font-extrabold">Jadi, totalnya adalah 3.240 buku.</p>
+                </div>
+              </div>
+
+              <div class="bg-white p-5 rounded-3xl border-2 border-indigo-200 shadow-sm space-y-3">
+                <span class="px-2.5 py-1 rounded-lg bg-indigo-600 text-white font-black text-xs">Contoh 2 • Pecahan</span>
+                <p class="text-sm font-bold text-slate-800">
+                  Ibu membeli <strong>3 ½ kg gula pasir</strong>. Sebanyak <strong>2/5 bagian</strong> dari gula tersebut digunakan untuk membuat kue bolu. Berapa kg gula yang digunakan Ibu?
+                </p>
+                <div class="bg-indigo-50 p-3 rounded-2xl text-xs space-y-1 text-slate-700">
+                  <p><strong>Ubah Campuran:</strong> 3 ½ = 7/2 kg</p>
+                  <p><strong>Operasi:</strong> (7/2) × (2/5) = 14/10 = 7/5 = <strong>1 2/5 kg</strong></p>
+                  <p class="text-indigo-800 font-extrabold">Jadi, gula yang dipakai 1 2/5 kg (1,4 kg).</p>
+                </div>
+              </div>
+
+              <div class="bg-white p-5 rounded-3xl border-2 border-teal-200 shadow-sm space-y-3">
+                <span class="px-2.5 py-1 rounded-lg bg-teal-600 text-white font-black text-xs">Contoh 3 • Desimal</span>
+                <p class="text-sm font-bold text-slate-800">
+                  Sebidang taman berbentuk persegi panjang memiliki panjang <strong>8,5 meter</strong> dan lebar <strong>4,2 meter</strong>. Berapa meter persegi luas taman tersebut?
+                </p>
+                <div class="bg-teal-50 p-3 rounded-2xl text-xs space-y-1 text-slate-700">
+                  <p><strong>Hitung Tanpa Koma:</strong> 85 × 42 = 3.570</p>
+                  <p><strong>Geser Koma:</strong> 1 + 1 = 2 angka di belakang koma → <strong>35,70</strong></p>
+                  <p class="text-teal-800 font-extrabold">Jadi, luas taman adalah 35,7 m².</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- TAB 3: VIDEO ANIMASI HTML5 CANVAS (BUKAN YOUTUBE)                   -->
+    <!-- =================================================================== -->
+    <section id="panel-video" class="tab-panel hidden space-y-6 animate-pop">
+      <div class="bg-white rounded-3xl shadow-lg border-2 border-blue-100 overflow-hidden">
+        <div class="bg-gradient-to-r from-indigo-700 to-blue-600 px-6 py-5 text-white flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <span class="text-xs font-extrabold uppercase tracking-wider bg-amber-400 text-slate-950 px-3 py-0.5 rounded-full">
+              Studio Animasi HTML5 Canvas (Non-YouTube)
+            </span>
+            <h2 class="text-xl sm:text-2xl font-black mt-1">Video Pembelajaran Animasi & Narasi Otomatis</h2>
+          </div>
+          <!-- Pilihan 3 Bab Video -->
+          <div class="flex flex-wrap gap-1.5">
+            <button onclick="selectVideoChapter(0)" id="vchap-btn-0" class="px-3.5 py-2 rounded-xl bg-amber-400 text-slate-950 font-black text-xs sm:text-sm shadow">Bab 1: Perkalian Bersusun</button>
+            <button onclick="selectVideoChapter(1)" id="vchap-btn-1" class="px-3.5 py-2 rounded-xl bg-white/15 hover:bg-white/25 text-white font-extrabold text-xs sm:text-sm">Bab 2: Visual Pecahan</button>
+            <button onclick="selectVideoChapter(2)" id="vchap-btn-2" class="px-3.5 py-2 rounded-xl bg-white/15 hover:bg-white/25 text-white font-extrabold text-xs sm:text-sm">Bab 3: Trik Desimal</button>
+          </div>
+        </div>
+
+        <div class="p-6 sm:p-8 space-y-4">
+          <!-- Kanvas Video Animasi -->
+          <div class="relative rounded-3xl overflow-hidden border-4 border-indigo-500 bg-slate-900 shadow-2xl">
+            <canvas id="lesson-video-canvas" class="w-full h-[310px] sm:h-[400px] block"></canvas>
+
+            <!-- Subtitle Sinkron di Bagian Bawah Layar -->
+            <div class="absolute bottom-3 left-3 right-3 bg-slate-950/85 backdrop-blur-md border border-blue-400/40 px-4 py-3 rounded-2xl text-center">
+              <p id="video-subtitle-box" class="text-xs sm:text-sm md:text-base font-bold text-amber-200">
+                Tekan tombol "Putar Video" di bawah untuk menonton animasi dan mendengarkan penjelasan guru virtual!
+              </p>
+            </div>
+          </div>
+
+          <!-- Progress Bar Video -->
+          <div class="space-y-1.5">
+            <div class="flex justify-between text-xs font-extrabold text-slate-600">
+              <span id="video-chapter-label">Bab 1: Konsep Perkalian Bersusun</span>
+              <span id="video-scene-indicator">Adegan 1 / 4</span>
+            </div>
+            <div class="w-full h-3 bg-blue-100 rounded-full overflow-hidden border border-blue-200">
+              <div id="video-progress-fill" class="h-full bg-gradient-to-r from-blue-600 to-amber-400 transition-all duration-300" style="width: 25%"></div>
+            </div>
+          </div>
+
+          <!-- Kontrol Pemutar Video -->
+          <div class="flex flex-wrap items-center justify-between gap-3 bg-blue-50 p-4 rounded-2xl border border-blue-200">
+            <div class="flex flex-wrap items-center gap-2">
+              <button onclick="playCanvasVideo()" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-sm shadow transition active:scale-95 flex items-center gap-2">
+                <span>▶️</span> Putar Video
+              </button>
+              <button onclick="pauseCanvasVideo()" class="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-black text-sm shadow transition active:scale-95 flex items-center gap-2">
+                <span>⏸️</span> Jeda
+              </button>
+              <button onclick="restartCanvasVideo()" class="px-4 py-2.5 rounded-xl bg-white hover:bg-blue-100 text-blue-800 border border-blue-300 font-extrabold text-sm transition flex items-center gap-2">
+                <span>🔄</span> Ulangi Bab
+              </button>
+            </div>
+            <p class="text-xs font-bold text-slate-500">
+              💡 Animasi dirender langsung di browser (100% offline & bebas iklan)
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- TAB 4: GAME EDUKASI INTERAKTIF ("PETUALANGAN ROKET PERKALIAN")       -->
+    <!-- =================================================================== -->
+    <section id="panel-game" class="tab-panel hidden space-y-6 animate-pop">
+      <div class="bg-white rounded-3xl shadow-lg border-2 border-blue-100 overflow-hidden">
+        <div class="bg-gradient-to-r from-violet-700 via-indigo-600 to-blue-600 px-6 py-5 text-white flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <span class="text-xs font-extrabold uppercase tracking-wider bg-amber-300 text-slate-950 px-3 py-0.5 rounded-full">
+              Arena Bermain & Berlatih
+            </span>
+            <h2 class="text-xl sm:text-2xl font-black mt-1">🚀 Petualangan Roket Perkalian Kelas 6</h2>
+          </div>
+
+          <!-- HUD Skor, Nyawa, Combo -->
+          <div class="flex flex-wrap items-center gap-3 bg-slate-950/40 px-4 py-2 rounded-2xl border border-white/20 text-xs sm:text-sm font-black">
+            <div class="flex items-center gap-1 text-rose-300" id="game-lives-display">❤️❤️❤️</div>
+            <div class="h-4 w-0.5 bg-white/20"></div>
+            <div class="text-amber-300">⭐ Skor: <span id="game-score-display">0</span></div>
+            <div class="h-4 w-0.5 bg-white/20"></div>
+            <div class="text-emerald-300">🔥 Combo: <span id="game-combo-display">0x</span></div>
+          </div>
+        </div>
+
+        <div class="p-6 sm:p-8 space-y-6">
+          <!-- Pilihan Level Game -->
+          <div class="flex flex-wrap items-center justify-between gap-3 bg-indigo-50 p-4 rounded-2xl border border-indigo-200">
+            <div class="flex flex-wrap gap-2">
+              <button onclick="startGameLevel(1)" id="glevel-btn-1" class="px-4 py-2 rounded-xl bg-indigo-600 text-white font-black text-xs sm:text-sm shadow">
+                Level 1: Bilangan Bulat
+              </button>
+              <button onclick="startGameLevel(2)" id="glevel-btn-2" class="px-4 py-2 rounded-xl bg-white text-indigo-800 border border-indigo-300 font-extrabold text-xs sm:text-sm">
+                Level 2: Pecahan & Desimal
+              </button>
+              <button onclick="startGameLevel(3)" id="glevel-btn-3" class="px-4 py-2 rounded-xl bg-white text-indigo-800 border border-indigo-300 font-extrabold text-xs sm:text-sm">
+                Level 3: Tantangan Cepat (30 Detik)
+              </button>
+            </div>
+            <div id="game-timer-badge" class="hidden px-4 py-1.5 rounded-xl bg-rose-600 text-white font-black text-sm animate-pulse">
+              ⏱️ Waktu: <span id="game-timer-val">30</span>s
+            </div>
+          </div>
+
+          <!-- Arena Luar Angkasa Roket -->
+          <div class="bg-gradient-to-b from-slate-900 via-indigo-950 to-slate-900 rounded-3xl p-6 text-white border-4 border-indigo-400 shadow-2xl relative overflow-hidden">
+            <!-- Lintasan Roket -->
+            <div class="mb-6">
+              <div class="flex justify-between text-xs font-extrabold text-blue-200 mb-1.5">
+                <span>🌍 Bumi</span>
+                <span id="game-mission-label">Misi Level 1: Tembak Asteroid Jawaban yang Benar!</span>
+                <span>🌕 Bulan (Target: 100 Poin)</span>
+              </div>
+              <div class="w-full h-4 bg-slate-800 rounded-full p-0.5 border border-indigo-400/40 relative">
+                <div id="rocket-progress-bar" class="h-full bg-gradient-to-r from-amber-400 to-emerald-400 rounded-full transition-all duration-500 flex items-center justify-end pr-1" style="width: 8%">
+                  <span class="text-sm -mr-3">🚀</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Layar Soal Game & Pilihan Asteroid -->
+            <div id="game-play-area" class="text-center space-y-6 py-2">
+              <div class="inline-block bg-white/10 backdrop-blur-md border-2 border-amber-300/60 px-6 py-4 rounded-3xl shadow-lg">
+                <p class="text-xs font-bold uppercase tracking-wider text-amber-300 mb-1">Hitung Hasil Perkalian Berikut:</p>
+                <h3 id="game-question-prompt" class="text-2xl sm:text-4xl font-black text-white tracking-wide">
+                  24 × 15 = ?
+                </h3>
+              </div>
+
+              <div id="game-asteroid-options" class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 max-w-3xl mx-auto">
+                <!-- 4 Pilihan Jawaban -->
+              </div>
+
+              <p id="game-feedback-banner" class="min-h-[28px] text-sm font-black text-emerald-300"></p>
+            </div>
+
+            <!-- Layar Game Over / Menang -->
+            <div id="game-over-area" class="hidden text-center py-6 space-y-4">
+              <div id="game-end-emoji" class="text-6xl">🏆</div>
+              <h3 id="game-end-title" class="text-2xl sm:text-3xl font-black text-amber-300">Misi Berhasil!</h3>
+              <p id="game-end-desc" class="text-sm text-blue-100 max-w-md mx-auto">Kamu berhasil mendaratkan roket perkalian dengan skor tinggi!</p>
+              <button onclick="startGameLevel(currentGameLvl)" class="px-6 py-3 rounded-2xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-sm shadow-lg">
+                🔄 Mainkan Lagi Level Ini
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- TAB 5: KUIS EVALUASI & REKAP CAPAIAN KKTP                           -->
+    <!-- =================================================================== -->
+    <section id="panel-kuis" class="tab-panel hidden space-y-6 animate-pop">
+      <div class="bg-white rounded-3xl shadow-lg border-2 border-blue-100 overflow-hidden">
+        <div class="bg-gradient-to-r from-emerald-600 to-teal-600 px-6 py-5 text-white flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <span class="text-xs font-extrabold uppercase tracking-wider bg-white/20 px-3 py-1 rounded-full">Asesmen Formatif & Sumatif</span>
+            <h2 class="text-xl sm:text-2xl font-black mt-1">Kuis Evaluasi Perkalian & Pemetaan KKTP</h2>
+          </div>
+          <span class="text-xs font-extrabold bg-emerald-950/40 px-3.5 py-1.5 rounded-full border border-emerald-300/40">
+            10 Soal Acak (TP 1, TP 2, TP 3)
+          </span>
+        </div>
+
+        <div class="p-6 sm:p-8">
+          <!-- Layar Awal Kuis -->
+          <div id="quiz-intro-view" class="text-center max-w-xl mx-auto py-6 space-y-4">
+            <div class="w-20 h-20 rounded-3xl bg-emerald-100 text-emerald-700 text-4xl flex items-center justify-center mx-auto border-2 border-emerald-300 shadow">
+              📝
+            </div>
+            <h3 class="text-2xl font-black text-slate-800">Uji Pemahaman Perkalian Kelas 6</h3>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              Sistem akan mengambil <strong>10 soal pilihan ganda secara acak</strong> dari bank soal yang mencakup perkalian bilangan bulat/cacah, pecahan & desimal, serta soal cerita. Setelah selesai, kamu akan mendapatkan <strong>pembahasan lengkap</strong> dan <strong>predikat KKTP Kurikulum Merdeka</strong>.
+            </p>
+            <button onclick="beginQuiz()" class="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-black text-base shadow-lg transition active:scale-95">
+              🚀 Mulai Mengerjakan Kuis
+            </button>
+          </div>
+
+          <!-- Layar Pengerjaan Kuis -->
+          <div id="quiz-question-view" class="hidden space-y-5 max-w-3xl mx-auto">
+            <div class="flex flex-wrap items-center justify-between gap-2 bg-emerald-50 p-3.5 rounded-2xl border border-emerald-200">
+              <span id="quiz-step-label" class="font-black text-emerald-900 text-sm">Soal 1 dari 10</span>
+              <span id="quiz-tp-badge" class="text-xs font-extrabold px-3 py-1 rounded-full bg-white border border-emerald-300 text-emerald-700">TP 1: Bilangan Bulat</span>
+            </div>
+
+            <div class="bg-slate-50 p-6 rounded-3xl border-2 border-emerald-200 space-y-4">
+              <p id="quiz-prompt-text" class="text-base sm:text-lg font-extrabold text-slate-800 leading-relaxed"></p>
+              <div id="quiz-choices-list" class="space-y-2.5"></div>
+            </div>
+
+            <div class="flex justify-between items-center">
+              <button onclick="navigateQuiz(-1)" id="quiz-btn-prev" class="px-4 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-700 font-extrabold text-sm disabled:opacity-40">
+                ⬅️ Sebelumnya
+              </button>
+              <button onclick="navigateQuiz(1)" id="quiz-btn-next" class="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-sm shadow">
+                Selanjutnya ➡️
+              </button>
+            </div>
+          </div>
+
+          <!-- Layar Hasil Kuis, Rekap KKTP & Pembahasan -->
+          <div id="quiz-summary-view" class="hidden space-y-6">
+            <div class="bg-gradient-to-br from-emerald-50 via-white to-blue-50 p-6 sm:p-8 rounded-3xl border-2 border-emerald-300 shadow-inner text-center space-y-3">
+              <span class="px-3.5 py-1 rounded-full bg-emerald-600 text-white font-black text-xs uppercase tracking-wider">
+                Laporan Capaian Belajar Siswa
+              </span>
+              <h3 class="text-xl sm:text-2xl font-black text-slate-800">
+                Nama Siswa: <span id="report-student-name" class="text-blue-700">Peserta Didik Kelas 6</span>
+              </h3>
+
+              <div class="flex flex-wrap justify-center items-center gap-6 py-2">
+                <div class="bg-white px-6 py-3 rounded-2xl border-2 border-emerald-300 shadow-sm">
+                  <p class="text-xs font-bold text-slate-500 uppercase">Nilai Akhir</p>
+                  <p id="report-final-score" class="text-4xl font-black text-emerald-600">90</p>
+                </div>
+                <div class="bg-white px-6 py-3 rounded-2xl border-2 border-blue-300 shadow-sm">
+                  <p class="text-xs font-bold text-slate-500 uppercase">Jawaban Benar</p>
+                  <p id="report-correct-total" class="text-2xl font-black text-blue-700">9 / 10 Soal</p>
+                </div>
+                <div class="bg-white px-6 py-3 rounded-2xl border-2 border-amber-400 shadow-sm">
+                  <p class="text-xs font-bold text-slate-500 uppercase">Predikat KKTP</p>
+                  <p id="report-kktp-level" class="text-2xl font-black text-amber-600">Sangat Baik</p>
+                </div>
+              </div>
+
+              <!-- Rincian Capaian Per TP -->
+              <div id="report-tp-breakdown" class="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-3xl mx-auto pt-2 text-left"></div>
+
+              <!-- Rekomendasi Tindak Lanjut -->
+              <div id="report-recommendation-box" class="max-w-3xl mx-auto bg-white p-4 rounded-2xl border border-emerald-200 text-xs sm:text-sm text-slate-700 font-semibold text-left"></div>
+
+              <div class="pt-3 flex flex-wrap justify-center gap-3">
+                <button onclick="beginQuiz()" class="px-5 py-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-sm shadow">
+                  🔄 Kerjakan Kuis Lagi (Soal Acak Baru)
+                </button>
+                <button onclick="speakQuizReport()" class="px-5 py-2.5 rounded-2xl bg-blue-100 hover:bg-blue-200 text-blue-800 font-extrabold text-sm">
+                  🔊 Dengarkan Hasil Evaluasi
+                </button>
+              </div>
+            </div>
+
+            <!-- Pembahasan Lengkap 10 Soal -->
+            <div class="space-y-3">
+              <h4 class="font-black text-lg text-slate-800">📖 Pembahasan Otomatis Setiap Soal</h4>
+              <div id="quiz-explanations-list" class="space-y-3"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- JAVASCRIPT UTAMA -->
+  <script>
+    /* =======================================================================
+       1. STATE GLOBAL & SISTEM SUARA (WEB AUDIO + SPEECH SYNTHESIS ID-ID)
+       ======================================================================= */
+    const state = {
+      activeTab: 'tp',
+      soundOn: true,
+      studentName: 'Sahabat Matematika'
+    };
+
+    const NAV_TABS = [
+      { id: 'tp', label: '1. Tujuan & KKTP', icon: '🎯' },
+      { id: 'materi', label: '2. Materi Interaktif', icon: '📘' },
+      { id: 'video', label: '3. Video Animasi', icon: '🎬' },
+      { id: 'game', label: '4. Game Edukasi', icon: '🚀' },
+      { id: 'kuis', label: '5. Kuis & Rekap KKTP', icon: '📝' }
+    ];
+
+    let audioCtx = null;
+
+    function playSFX(kind = 'click') {
+      if (!state.soundOn) return;
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        const now = audioCtx.currentTime;
+
+        if (kind === 'click') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(580, now);
+          osc.frequency.exponentialRampToValueAtTime(880, now + 0.08);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
+          osc.start(now); osc.stop(now + 0.09);
+        } else if (kind === 'win') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(523.25, now);
+          osc.frequency.setValueAtTime(659.25, now + 0.08);
+          osc.frequency.setValueAtTime(783.99, now + 0.16);
+          osc.frequency.setValueAtTime(1046.5, now + 0.24);
+          gain.gain.setValueAtTime(0.16, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.42);
+          osc.start(now); osc.stop(now + 0.42);
+        } else if (kind === 'wrong') {
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(210, now);
+          osc.frequency.linearRampToValueAtTime(140, now + 0.22);
+          gain.gain.setValueAtTime(0.11, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.24);
+          osc.start(now); osc.stop(now + 0.24);
+        }
+      } catch (e) {}
+    }
+
+    function speakText(text, onEnd = null) {
+      if (!state.soundOn || !('speechSynthesis' in window)) {
+        if (onEnd) onEnd();
+        return;
+      }
+      try {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = 'id-ID';
+        utter.rate = 0.98;
+        utter.pitch = 1.05;
+        const voices = window.speechSynthesis.getVoices();
+        const idVoice = voices.find(v => v.lang.includes('id') || v.lang.includes('ID'));
+        if (idVoice) utter.voice = idVoice;
+        if (onEnd) {
+          utter.onend = onEnd;
+          utter.onerror = onEnd;
+        }
+        window.speechSynthesis.speak(utter);
+      } catch (e) {
+        if (onEnd) onEnd();
+      }
+    }
+
+    function toggleSoundSystem() {
+      state.soundOn = !state.soundOn;
+      const icon = document.getElementById('sound-status-icon');
+      const txt = document.getElementById('sound-status-text');
+      if (state.soundOn) {
+        icon.textContent = '🔊';
+        txt.textContent = 'Suara Aktif';
+        playSFX('click');
+        showToast('Suara narasi & efek diaktifkan', 'success');
+      } else {
+        icon.textContent = '🔇';
+        txt.textContent = 'Suara Mati';
+        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+        showToast('Suara dimatikan', 'info');
+      }
+    }
+
+    function showToast(msg, type = 'info') {
+      const box = document.getElementById('toast-container');
+      const el = document.createElement('div');
+      const styles = {
+        success: 'bg-emerald-700 text-white border-emerald-300',
+        error: 'bg-rose-600 text-white border-rose-300',
+        info: 'bg-slate-800 text-white border-blue-400'
+      };
+      el.className = `px-4 py-2.5 rounded-2xl shadow-xl border-2 text-xs sm:text-sm font-extrabold transition-all duration-300 ${styles[type] || styles.info}`;
+      el.textContent = msg;
+      box.appendChild(el);
+      setTimeout(() => { el.style.opacity = '0'; setTimeout(() => el.remove(), 300); }, 2800);
+    }
+
+    function updateStudentName() {
+      const val = document.getElementById('student-name-input').value.trim();
+      state.studentName = val || 'Sahabat Matematika';
+      document.getElementById('welcome-student-display').textContent = state.studentName;
+      document.getElementById('report-student-name').textContent = state.studentName;
+      playSFX('win');
+      showToast(`Halo ${state.studentName}! Selamat belajar perkalian.`, 'success');
+      speakText(`Halo ${state.studentName}, selamat datang di media pembelajaran matematika kelas 6 materi perkalian!`);
+    }
+
+    /* =======================================================================
+       2. NAVIGASI TAB UTAMA
+       ======================================================================= */
+    function renderNavTabs() {
+      const container = document.getElementById('main-nav-tabs');
+      container.innerHTML = NAV_TABS.map(t => {
+        const active = state.activeTab === t.id;
+        return `
+          <button 
+            onclick="switchTab('${t.id}')"
+            class="px-3.5 sm:px-4 py-2 rounded-2xl font-extrabold text-xs sm:text-sm whitespace-nowrap flex items-center gap-1.5 transition ${
+              active 
+                ? 'bg-blue-600 text-white shadow-md scale-[1.02]' 
+                : 'bg-blue-50/70 hover:bg-blue-100 text-slate-700'
+            }"
+          >
+            <span>${t.icon}</span>
+            <span>${t.label}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function switchTab(tabId) {
+      playSFX('click');
+      if (state.activeTab === 'video' && tabId !== 'video') pauseCanvasVideo();
+      if (state.activeTab === 'game' && tabId !== 'game' && gameTimerInterval) clearInterval(gameTimerInterval);
+
+      state.activeTab = tabId;
+      renderNavTabs();
+
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
+      document.getElementById(`panel-${tabId}`).classList.remove('hidden');
+
+      if (tabId === 'video') initVideoCanvas();
+      if (tabId === 'game' && !gameInitialized) startGameLevel(1);
+    }
+
+    function readTPAndKKTP() {
+      playSFX('click');
+      speakText('Tujuan pembelajaran perkalian kelas 6 ada tiga. Pertama, menghitung perkalian bilangan cacah atau bulat multi-digit dengan tepat. Kedua, menghitung perkalian pecahan biasa, pecahan campuran, dan bilangan desimal dengan akurat. Ketiga, menyelesaikan soal cerita kontekstual dalam kehidupan sehari-hari.');
+    }
+
+    /* =======================================================================
+       3. MATERI INTERAKTIF & VISUALIZER
+       ======================================================================= */
+    function switchMateriSub(sub) {
+      playSFX('click');
+      ['bulat', 'pecahan', 'desimal', 'cerita'].forEach(s => {
+        document.getElementById(`materi-sub-${s}`).classList.toggle('hidden', s !== sub);
+        const btn = document.getElementById(`sub-btn-${s}`);
+        btn.className = s === sub 
+          ? 'px-3.5 py-2 rounded-xl bg-amber-400 text-slate-950 font-black text-xs sm:text-sm shadow'
+          : 'px-3.5 py-2 rounded-xl bg-white/15 hover:bg-white/25 text-white font-extrabold text-xs sm:text-sm';
+      });
+    }
+
+    function renderLongMultiplication() {
+      const a = parseInt(document.getElementById('calc-int-a').value, 10) || 0;
+      const b = parseInt(document.getElementById('calc-int-b').value, 10) || 0;
+      const out = document.getElementById('long-mult-output');
+
+      const absA = Math.abs(a);
+      const absB = Math.abs(b);
+      const ones = absB % 10;
+      const tens = Math.floor(absB / 10);
+      const step1 = absA * ones;
+      const step2 = absA * tens * 10;
+      const total = a * b;
+
+      const signNote = (a < 0 || b < 0) 
+        ? `<div class="text-amber-300 text-xs mt-2 border-t border-slate-700 pt-2">Aturan tanda: (${a >= 0 ? '+' : '−'}) × (${b >= 0 ? '+' : '−'}) = ${total >= 0 ? 'Positif (+)' : 'Negatif (−)'}</div>`
+        : '';
+
+      out.innerHTML = `
+        <div class="text-right max-w-[230px] mx-auto">
+          <div>${absA}</div>
+          <div class="border-b border-emerald-500 pb-1">× ${absB}</div>
+          <div class="text-sky-300 pt-1">${step1} <span class="text-[11px] text-slate-400">(${absA} × ${ones})</span></div>
+          ${tens > 0 ? `<div class="text-amber-300">+ ${step2} <span class="text-[11px] text-slate-400">(${absA} × ${tens}0)</span></div>` : ''}
+          <div class="border-t-2 border-emerald-400 mt-1 pt-1 text-lg font-black text-white">Hasil: ${total.toLocaleString('id-ID')}</div>
+        </div>
+        ${signNote}
+      `;
+    }
+
+    function gcd(x, y) {
+      return y === 0 ? x : gcd(y, x % y);
+    }
+
+    function renderFractionGrid() {
+      const n1 = parseInt(document.getElementById('frac-n1').value, 10);
+      const d1 = parseInt(document.getElementById('frac-d1').value, 10);
+      const n2 = parseInt(document.getElementById('frac-n2').value, 10);
+      const d2 = parseInt(document.getElementById('frac-d2').value, 10);
+
+      const grid = document.getElementById('fraction-visual-grid');
+      grid.style.gridTemplateColumns = `repeat(${d1}, minmax(0, 1fr))`;
+      grid.style.gridTemplateRows = `repeat(${d2}, minmax(0, 1fr))`;
+
+      let cellsHTML = '';
+      for (let r = 0; r < d2; r++) {
+        for (let c = 0; c < d1; c++) {
+          const inCol = c < n1;
+          const inRow = r < n2;
+          let bg = 'bg-white';
+          if (inCol && inRow) bg = 'bg-emerald-500 text-white font-black'; // Irisan keduanya
+          else if (inCol) bg = 'bg-blue-200';
+          else if (inRow) bg = 'bg-amber-200';
+          cellsHTML += `<div class="${bg} rounded flex items-center justify-center text-[10px] border border-slate-300">${(inCol && inRow) ? '✓' : ''}</div>`;
+        }
+      }
+      grid.innerHTML = cellsHTML;
+
+      const num = n1 * n2;
+      const den = d1 * d2;
+      const divisor = gcd(num, den);
+      const simpText = divisor > 1 ? ` = <strong>${num / divisor}/${den / divisor}</strong> (disederhanakan)` : '';
+
+      document.getElementById('fraction-visual-result').innerHTML = `
+        <p class="text-indigo-900 font-black text-sm">(${n1}/${d1}) × (${n2}/${d2}) = ${num}/${den}${simpText}</p>
+        <p class="text-xs text-slate-600">• Kotak <span class="text-emerald-600 font-black">Hijau (✓)</span> adalah daerah irisan kedua arsiran sebanyak <strong>${num} kotak</strong> dari total <strong>${den} kotak</strong>.</p>
+      `;
+    }
+
+    function renderDecimalStep() {
+      const rawA = document.getElementById('dec-a').value || '0';
+      const rawB = document.getElementById('dec-b').value || '0';
+      const valA = parseFloat(rawA) || 0;
+      const valB = parseFloat(rawB) || 0;
+
+      const decPlacesA = (rawA.split('.')[1] || '').length;
+      const decPlacesB = (rawB.split('.')[1] || '').length;
+      const totalPlaces = decPlacesA + decPlacesB;
+
+      const intA = Math.round(valA * Math.pow(10, decPlacesA));
+      const intB = Math.round(valB * Math.pow(10, decPlacesB));
+      const intProd = intA * intB;
+      const finalProd = Number((valA * valB).toFixed(6));
+
+      document.getElementById('decimal-step-output').innerHTML = `
+        <p><strong>Langkah 1 (Hilangkan Koma):</strong> ${intA} × ${intB} = <span class="text-blue-700 font-black">${intProd}</span></p>
+        <p><strong>Langkah 2 (Hitung Angka Belakang Koma):</strong> ${decPlacesA} angka + ${decPlacesB} angka = <span class="text-amber-600 font-black">${totalPlaces} angka di belakang koma</span></p>
+        <p class="text-base font-black text-teal-800 pt-1 border-t border-teal-100">Hasil Akhir: ${valA} × ${valB} = ${finalProd}</p>
+      `;
+    }
+
+    /* =======================================================================
+       4. VIDEO ANIMASI HTML5 CANVAS (NON-YOUTUBE + TTS OTOMATIS)
+       ======================================================================= */
+    const VIDEO_CHAPTERS = [
+      {
+        title: 'Bab 1: Konsep Perkalian Bersusun',
+        scenes: [
+          { subtitle: 'Halo kelas 6! Mari kita pelajari perkalian bilangan multi-digit seperti 124 dikali 23.', formula: '124 × 23 = ?', note: 'Langkah 1: Susun ke bawah sesuai nilai tempat' },
+          { subtitle: 'Pertama, kalikan 124 dengan angka satuan 3. Hasilnya adalah 372.', formula: '124 × 3 = 372', note: 'Simpan hasil baris pertama: 372' },
+          { subtitle: 'Kedua, kalikan 124 dengan angka puluhan 20. Hasilnya adalah 2.480.', formula: '124 × 20 = 2.480', note: 'Geser satu langkah ke kiri untuk puluhan' },
+          { subtitle: 'Terakhir, jumlahkan 372 ditambah 2.480 sehingga diperoleh hasil akhir 2.852!', formula: '372 + 2.480 = 2.852', note: 'Selesai! 124 × 23 = 2.852' }
+        ]
+      },
+      {
+        title: 'Bab 2: Visualisasi Perkalian Pecahan',
+        scenes: [
+          { subtitle: 'Bagaimana cara mengalikan pecahan 2/3 dikali 3/4? Cukup kalikan pembilang dan penyebutnya!', formula: '2/3 × 3/4 = ?', note: 'Pembilang × Pembilang, Penyebut × Penyebut' },
+          { subtitle: 'Kalikan pembilang 2 dikali 3 sama dengan 6. Lalu penyebut 3 dikali 4 sama dengan 12.', formula: '(2 × 3) / (3 × 4) = 6/12', note: 'Diperoleh pecahan 6/12' },
+          { subtitle: 'Sederhanakan 6/12 dengan membagi pembilang dan penyebut dengan 6, hasilnya adalah 1/2!', formula: '6/12 ÷ 6/6 = 1/2', note: 'Bentuk paling sederhana adalah 1/2' }
+        ]
+      },
+      {
+        title: 'Bab 3: Trik Perkalian Bilangan Desimal',
+        scenes: [
+          { subtitle: 'Untuk menghitung 2,5 dikali 0,3, abaikan dulu tanda komanya menjadi 25 dikali 3.', formula: '2,5 × 0,3 → 25 × 3', note: 'Ubah sementara menjadi bilangan bulat' },
+          { subtitle: '25 dikali 3 sama dengan 75. Sekarang hitung jumlah angka di belakang koma: ada 2 angka!', formula: '25 × 3 = 75 (2 desimal)', note: '2,5 (1 angka) + 0,3 (1 angka) = 2 angka' },
+          { subtitle: 'Geser koma dua langkah dari kanan ke kiri pada 75, sehingga hasilnya adalah 0,75!', formula: '2,5 × 0,3 = 0,75', note: 'Mudah dan cepat bukan?' }
+        ]
+      }
+    ];
+
+    let videoPlayer = {
+      chap: 0,
+      scene: 0,
+      playing: false,
+      rafId: null,
+      t: 0
+    };
+
+    function initVideoCanvas() {
+      const c = document.getElementById('lesson-video-canvas');
+      if (!c) return;
+      c.width = c.offsetWidth || 760;
+      c.height = c.offsetHeight || 380;
+      renderVideoFrame();
+    }
+
+    function selectVideoChapter(idx) {
+      playSFX('click');
+      pauseCanvasVideo();
+      videoPlayer.chap = idx;
+      videoPlayer.scene = 0;
+      videoPlayer.t = 0;
+
+      [0, 1, 2].forEach(i => {
+        const b = document.getElementById(`vchap-btn-${i}`);
+        b.className = i === idx
+          ? 'px-3.5 py-2 rounded-xl bg-amber-400 text-slate-950 font-black text-xs sm:text-sm shadow'
+          : 'px-3.5 py-2 rounded-xl bg-white/15 hover:bg-white/25 text-white font-extrabold text-xs sm:text-sm';
+      });
+
+      const ch = VIDEO_CHAPTERS[idx];
+      document.getElementById('video-chapter-label').textContent = ch.title;
+      document.getElementById('video-scene-indicator').textContent = `Adegan 1 / ${ch.scenes.length}`;
+      document.getElementById('video-progress-fill').style.width = `${(1 / ch.scenes.length) * 100}%`;
+      document.getElementById('video-subtitle-box').textContent = ch.scenes[0].subtitle;
+      renderVideoFrame();
+    }
+
+    function playCanvasVideo() {
+      playSFX('click');
+      if (videoPlayer.playing) return;
+      videoPlayer.playing = true;
+      playCurrentVideoScene();
+      loopVideoCanvas();
+    }
+
+    function pauseCanvasVideo() {
+      videoPlayer.playing = false;
+      if (videoPlayer.rafId) cancelAnimationFrame(videoPlayer.rafId);
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    }
+
+    function restartCanvasVideo() {
+      pauseCanvasVideo();
+      videoPlayer.scene = 0;
+      videoPlayer.t = 0;
+      playCanvasVideo();
+    }
+
+    function playCurrentVideoScene() {
+      if (!videoPlayer.playing) return;
+      const ch = VIDEO_CHAPTERS[videoPlayer.chap];
+      const sc = ch.scenes[videoPlayer.scene];
+
+      document.getElementById('video-scene-indicator').textContent = `Adegan ${videoPlayer.scene + 1} / ${ch.scenes.length}`;
+      document.getElementById('video-progress-fill').style.width = `${((videoPlayer.scene + 1) / ch.scenes.length) * 100}%`;
+      document.getElementById('video-subtitle-box').textContent = sc.subtitle;
+
+      speakText(sc.subtitle, () => {
+        if (!videoPlayer.playing) return;
+        if (videoPlayer.scene < ch.scenes.length - 1) {
+          videoPlayer.scene++;
+          setTimeout(playCurrentVideoScene, 500);
+        } else {
+          videoPlayer.playing = false;
+          showToast('Video animasi selesai diputar!', 'success');
+        }
+      });
+    }
+
+    function loopVideoCanvas() {
+      if (!videoPlayer.playing) return;
+      videoPlayer.t += 0.05;
+      renderVideoFrame();
+      videoPlayer.rafId = requestAnimationFrame(loopVideoCanvas);
+    }
+
+    function renderVideoFrame() {
+      const c = document.getElementById('lesson-video-canvas');
+      if (!c) return;
+      const ctx = c.getContext('2d');
+      const w = c.width;
+      const h = c.height;
+
+      // Latar Ruang Kelas Digital
+      const bg = ctx.createLinearGradient(0, 0, w, h);
+      bg.addColorStop(0, '#1e1b4b');
+      bg.addColorStop(1, '#0f172a');
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, w, h);
+
+      // Papan Tulis Hijau Edukatif di Tengah-Kanan
+      const bx = w * 0.28;
+      const by = 28;
+      const bw = w * 0.67;
+      const bh = h * 0.64;
+
+      ctx.fillStyle = '#065f46';
+      ctx.strokeStyle = '#fbbf24';
+      ctx.lineWidth = 6;
+      ctx.beginPath();
+      ctx.roundRect(bx, by, bw, bh, 20);
+      ctx.fill();
+      ctx.stroke();
+
+      const ch = VIDEO_CHAPTERS[videoPlayer.chap];
+      const sc = ch.scenes[videoPlayer.scene];
+
+      // Teks di Papan Tulis
+      ctx.fillStyle = '#a7f3d0';
+      ctx.font = 'bold 14px Nunito, sans-serif';
+      ctx.fillText(ch.title.toUpperCase(), bx + 24, by + 34);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '900 28px Nunito, sans-serif';
+      ctx.fillText(sc.formula, bx + 24, by + bh * 0.52);
+
+      ctx.fillStyle = '#fde68a';
+      ctx.font = 'bold 15px Nunito, sans-serif';
+      ctx.fillText(`💡 ${sc.note}`, bx + 24, by + bh - 26);
+
+      // Karakter Guru Robot Pintar di Kiri
+      const gx = w * 0.14;
+      const gy = h * 0.46 + Math.sin(videoPlayer.t * 2) * 5;
+
+      ctx.fillStyle = '#93c5fd';
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.roundRect(gx - 35, gy - 35, 70, 64, 18);
+      ctx.fill();
+      ctx.stroke();
+
+      // Kacamata & Mata
+      ctx.fillStyle = '#1e3a8a';
+      ctx.beginPath();
+      ctx.arc(gx - 13, gy - 8, 6, 0, Math.PI * 2);
+      ctx.arc(gx + 13, gy - 8, 6, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Mulut animasi bicara
+      const mH = videoPlayer.playing ? Math.abs(Math.sin(videoPlayer.t * 7)) * 10 + 3 : 4;
+      ctx.fillStyle = '#f59e0b';
+      ctx.fillRect(gx - 12, gy + 10, 24, mH);
+    }
+
+    /* =======================================================================
+       5. GAME EDUKASI INTERAKTIF ("PETUALANGAN ROKET PERKALIAN")
+       ======================================================================= */
+    let gameInitialized = false;
+    let currentGameLvl = 1;
+    let gameScore = 0;
+    let gameLives = 3;
+    let gameCombo = 0;
+    let gameCorrectAns = '';
+    let gameTimerInterval = null;
+    let gameTimeLeft = 30;
+
+    function startGameLevel(lvl) {
+      playSFX('click');
+      gameInitialized = true;
+      currentGameLvl = lvl;
+      gameScore = 0;
+      gameLives = 3;
+      gameCombo = 0;
+
+      if (gameTimerInterval) clearInterval(gameTimerInterval);
+
+      [1, 2, 3].forEach(i => {
+        const btn = document.getElementById(`glevel-btn-${i}`);
+        btn.className = i === lvl
+          ? 'px-4 py-2 rounded-xl bg-indigo-600 text-white font-black text-xs sm:text-sm shadow'
+          : 'px-4 py-2 rounded-xl bg-white text-indigo-800 border border-indigo-300 font-extrabold text-xs sm:text-sm';
+      });
+
+      const timerBadge = document.getElementById('game-timer-badge');
+      if (lvl === 3) {
+        gameTimeLeft = 30;
+        timerBadge.classList.remove('hidden');
+        document.getElementById('game-timer-val').textContent = gameTimeLeft;
+        gameTimerInterval = setInterval(() => {
+          gameTimeLeft--;
+          document.getElementById('game-timer-val').textContent = gameTimeLeft;
+          if (gameTimeLeft <= 0) {
+            clearInterval(gameTimerInterval);
+            endGameSession(true, 'Waktu Habis! Skor Akhirmu: ' + gameScore);
+          }
+        }, 1000);
+      } else {
+        timerBadge.classList.add('hidden');
+      }
+
+      document.getElementById('game-play-area').classList.remove('hidden');
+      document.getElementById('game-over-area').classList.add('hidden');
+      updateGameHUD();
+      nextGameQuestion();
+    }
+
+    function updateGameHUD() {
+      document.getElementById('game-lives-display').textContent = '❤️'.repeat(Math.max(0, gameLives)) || '💔';
+      document.getElementById('game-score-display').textContent = gameScore;
+      document.getElementById('game-combo-display').textContent = `${gameCombo}x`;
+      const pct = Math.min(100, Math.max(8, gameScore));
+      document.getElementById('rocket-progress-bar').style.width = `${pct}%`;
+    }
+
+    function nextGameQuestion() {
+      let prompt = '';
+      let ans = '';
+      let opts = [];
+
+      if (currentGameLvl === 1 || (currentGameLvl === 3 && Math.random() < 0.5)) {
+        const a = Math.floor(Math.random() * 45) + 12;
+        const b = Math.floor(Math.random() * 18) + 6;
+        const res = a * b;
+        prompt = `${a} × ${b} = ?`;
+        ans = String(res);
+        opts = [ans, String(res + 10), String(res - 12), String(res + b)];
+      } else {
+        const presets = [
+          { q: '2/3 × 3/5 = ?', a: '2/5', o: ['2/5', '5/8', '6/8', '1/5'] },
+          { q: '1 ½ × 4 = ?', a: '6', o: ['6', '4 ½', '5', '8'] },
+          { q: '0,5 × 0,4 = ?', a: '0,2', o: ['0,2', '2,0', '0,02', '0,9'] },
+          { q: '1,2 × 3 = ?', a: '3,6', o: ['3,6', '0,36', '36', '4,2'] },
+          { q: '3/4 × 2/3 = ?', a: '1/2', o: ['1/2', '5/7', '6/7', '1/4'] },
+          { q: '2,5 × 0,2 = ?', a: '0,5', o: ['0,5', '5,0', '0,05', '2,7'] }
+        ];
+        const pick = presets[Math.floor(Math.random() * presets.length)];
+        prompt = pick.q;
+        ans = pick.a;
+        opts = [...pick.o];
+      }
+
+      gameCorrectAns = ans;
+      opts = [...new Set(opts)].sort(() => Math.random() - 0.5);
+      document.getElementById('game-question-prompt').textContent = prompt;
+      document.getElementById('game-feedback-banner').textContent = '';
+
+      document.getElementById('game-asteroid-options').innerHTML = opts.map(o => `
+        <button 
+          onclick="submitGameChoice('${o}')"
+          class="py-4 px-3 rounded-2xl bg-indigo-600/80 hover:bg-amber-400 hover:text-slate-950 border-2 border-indigo-300 font-black text-lg sm:text-xl shadow-lg transition transform hover:-translate-y-1 active:scale-95"
+        >
+          ☄️ ${o}
+        </button>
+      `).join('');
+    }
+
+    function submitGameChoice(choice) {
+      const fb = document.getElementById('game-feedback-banner');
+      if (choice === gameCorrectAns) {
+        playSFX('win');
+        gameCombo++;
+        gameScore += 20 + (gameCombo > 1 ? 5 : 0);
+        updateGameHUD();
+        fb.className = 'min-h-[28px] text-sm font-black text-emerald-300';
+        fb.textContent = `🚀 Tepat sekali! Roket meluncur lebih tinggi! (+${20 + (gameCombo > 1 ? 5 : 0)} Poin)`;
+
+        if (gameScore >= 100 && currentGameLvl !== 3) {
+          endGameSession(true, 'Luar biasa! Roket berhasil mendarat di Bulan dengan 100+ poin!');
+          return;
+        }
+        setTimeout(nextGameQuestion, 650);
+      } else {
+        playSFX('wrong');
+        gameCombo = 0;
+        gameLives--;
+        updateGameHUD();
+        fb.className = 'min-h-[28px] text-sm font-black text-rose-300';
+        fb.textContent = `💥 Melenceng! Jawaban yang benar adalah ${gameCorrectAns}.`;
+
+        if (gameLives <= 0) {
+          if (gameTimerInterval) clearInterval(gameTimerInterval);
+          endGameSession(false, 'Nyawa roket habis. Ayo coba lagi dan hitung lebih teliti!');
+          return;
+        }
+        setTimeout(nextGameQuestion, 900);
+      }
+    }
+
+    function endGameSession(isWin, message) {
+      document.getElementById('game-play-area').classList.add('hidden');
+      document.getElementById('game-over-area').classList.remove('hidden');
+      document.getElementById('game-end-emoji').textContent = isWin ? '🏆' : '🛸';
+      document.getElementById('game-end-title').textContent = isWin ? 'Misi Sukses!' : 'Misi Terhenti';
+      document.getElementById('game-end-desc').textContent = message;
+    }
+
+    /* =======================================================================
+       6. BANK SOAL KUIS EVALUASI & PEMETAAN KKTP OTOMATIS
+       ======================================================================= */
+    const QUESTION_BANK = [
+      // TP 1: Perkalian Bilangan Bulat / Cacah Multi-Digit
+      { tp: 'TP 1', q: 'Hasil dari 145 × 24 adalah ...', opts: ['3.480', '3.380', '3.580', '2.980'], ans: '3.480', exp: '145 × 4 = 580, dan 145 × 20 = 2.900. Jika dijumlahkan: 580 + 2.900 = 3.480.' },
+      { tp: 'TP 1', q: 'Hasil operasi hitung bilangan bulat (−18) × 15 adalah ...', opts: ['−270', '270', '−180', '180'], ans: '−270', exp: 'Bilangan negatif dikali bilangan positif menghasilkan negatif: −(18 × 15) = −270.' },
+      { tp: 'TP 1', q: 'Hasil dari (−25) × (−16) adalah ...', opts: ['400', '−400', '350', '−350'], ans: '400', exp: 'Bilangan negatif dikali bilangan negatif menghasilkan bilangan positif: 25 × 16 = 400.' },
+      { tp: 'TP 1', q: 'Nilai dari 312 × 19 adalah ...', opts: ['5.928', '5.828', '6.028', '5.918'], ans: '5.928', exp: '312 × (20 − 1) = 6.240 − 312 = 5.928.' },
+      { tp: 'TP 1', q: 'Hasil perkalian 405 × 32 adalah ...', opts: ['12.960', '12.860', '13.960', '12.950'], ans: '12.960', exp: '405 × 2 = 810 dan 405 × 30 = 12.150. Jumlahnya = 12.960.' },
+
+      // TP 2: Perkalian Pecahan & Bilangan Desimal
+      { tp: 'TP 2', q: 'Hasil dari 3/4 × 2/5 dalam bentuk paling sederhana adalah ...', opts: ['3/10', '6/9', '5/9', '1/2'], ans: '3/10', exp: '(3 × 2) / (4 × 5) = 6/20. Disederhanakan dibagi 2 menjadi 3/10.' },
+      { tp: 'TP 2', q: 'Hasil perkalian pecahan campuran 2 ¼ × 1 1/3 adalah ...', opts: ['3', '2 1/12', '3 ½', '2 ¾'], ans: '3', exp: 'Ubah ke pecahan biasa: 2 ¼ = 9/4 dan 1 1/3 = 4/3. Maka (9/4) × (4/3) = 36/12 = 3.' },
+      { tp: 'TP 2', q: 'Hasil dari 1,25 × 0,8 adalah ...', opts: ['1', '0,1', '10', '1,2'], ans: '1', exp: '125 × 8 = 1.000. Ada 2 + 1 = 3 angka di belakang koma → 1,000 = 1.' },
+      { tp: 'TP 2', q: 'Nilai dari 3,4 × 2,5 adalah ...', opts: ['8,5', '0,85', '85', '7,5'], ans: '8,5', exp: '34 × 25 = 850. Terdapat 1 + 1 = 2 angka di belakang koma → 8,50 = 8,5.' },
+      { tp: 'TP 2', q: 'Hasil dari 5/6 × 18 adalah ...', opts: ['15', '12', '16', '10'], ans: '15', exp: '(5 × 18) / 6 = 90 / 6 = 15.' },
+
+      // TP 3: Soal Cerita Kontekstual
+      { tp: 'TP 3', q: 'Sebuah toko buku memiliki 18 kardus berisi pensil. Jika setiap kardus berisi 144 batang pensil, jumlah seluruh pensil adalah ...', opts: ['2.592 batang', '2.492 batang', '2.692 batang', '2.582 batang'], ans: '2.592 batang', exp: '18 × 144 = 2.592 batang pensil.' },
+      { tp: 'TP 3', q: 'Paman memiliki kebun seluas 2 ½ hektare. Sebanyak 3/5 bagian ditanami jagung. Luas kebun yang ditanami jagung adalah ...', opts: ['1 ½ hektare', '1 ¼ hektare', '2 hektare', '¾ hektare'], ans: '1 ½ hektare', exp: '2 ½ = 5/2. Maka (5/2) × (3/5) = 15/10 = 1 ½ hektare.' },
+      { tp: 'TP 3', q: 'Harga 1 liter bensin adalah Rp10.000,00. Jika Ayah membeli 3,5 liter bensin, berapa rupiah yang harus dibayar?', opts: ['Rp35.000,00', 'Rp30.500,00', 'Rp3.500,00', 'Rp350.000,00'], ans: 'Rp35.000,00', exp: '10.000 × 3,5 = 35.000 rupiah.' },
+      { tp: 'TP 3', q: 'Sebuah wadah menampung 4,25 liter air. Jika terdapat 6 wadah yang sama penuh terisi air, total volume air adalah ...', opts: ['25,5 liter', '24,5 liter', '25,25 liter', '26,5 liter'], ans: '25,5 liter', exp: '4,25 × 6 = 25,50 = 25,5 liter.' }
+    ];
+
+    let quizState = {
+      items: [],
+      idx: 0,
+      answers: []
+    };
+
+    function beginQuiz() {
+      playSFX('click');
+      // Acak 10 soal dari bank soal
+      quizState.items = [...QUESTION_BANK].sort(() => Math.random() - 0.5).slice(0, 10);
+      quizState.idx = 0;
+      quizState.answers = new Array(10).fill(null);
+
+      document.getElementById('quiz-intro-view').classList.add('hidden');
+      document.getElementById('quiz-summary-view').classList.add('hidden');
+      document.getElementById('quiz-question-view').classList.remove('hidden');
+
+      renderQuizStep();
+    }
+
+    function renderQuizStep() {
+      const i = quizState.idx;
+      const item = quizState.items[i];
+      const chosen = quizState.answers[i];
+
+      document.getElementById('quiz-step-label').textContent = `Soal ${i + 1} dari 10`;
+      document.getElementById('quiz-tp-badge').textContent = `${item.tp}`;
+      document.getElementById('quiz-prompt-text').textContent = `${i + 1}. ${item.q}`;
+
+      document.getElementById('quiz-choices-list').innerHTML = item.opts.map((opt, k) => {
+        const active = chosen === opt;
+        return `
+          <button 
+            onclick="chooseQuizAnswer('${opt.replace(/'/g, "\\'")}')"
+            class="w-full p-3.5 rounded-2xl border-2 text-left font-extrabold text-xs sm:text-sm transition flex items-center gap-3 ${
+              active 
+                ? 'bg-emerald-600 text-white border-emerald-700 shadow-md' 
+                : 'bg-white hover:bg-emerald-50 text-slate-800 border-emerald-200'
+            }"
+          >
+            <span class="w-7 h-7 rounded-xl flex items-center justify-center text-xs shrink-0 ${
+              active ? 'bg-white text-emerald-700' : 'bg-emerald-100 text-emerald-800'
+            }">${String.fromCharCode(65 + k)}</span>
+            <span>${opt}</span>
+          </button>
+        `;
+      }).join('');
+
+      document.getElementById('quiz-btn-prev').disabled = i === 0;
+      document.getElementById('quiz-btn-next').textContent = i === 9 ? 'Selesai & Lihat Rekap KKTP ✅' : 'Selanjutnya ➡️';
+    }
+
+    function chooseQuizAnswer(val) {
+      playSFX('click');
+      quizState.answers[quizState.idx] = val;
+      renderQuizStep();
+    }
+
+    function navigateQuiz(dir) {
+      playSFX('click');
+      const next = quizState.idx + dir;
+      if (next >= 0 && next < 10) {
+        quizState.idx = next;
+        renderQuizStep();
+      } else if (next >= 10) {
+        evaluateQuizResult();
+      }
+    }
+
+    function evaluateQuizResult() {
+      let correct = 0;
+      const tpStats = {
+        'TP 1': { ok: 0, total: 0, label: 'Perkalian Bilangan Bulat' },
+        'TP 2': { ok: 0, total: 0, label: 'Pecahan & Desimal' },
+        'TP 3': { ok: 0, total: 0, label: 'Soal Cerita Kontekstual' }
+      };
+
+      quizState.items.forEach((item, idx) => {
+        tpStats[item.tp].total++;
+        if (quizState.answers[idx] === item.ans) {
+          correct++;
+          tpStats[item.tp].ok++;
+        }
+      });
+
+      const score = correct * 10;
+      let predikat = 'Belum Memenuhi';
+      let rekomendasi = 'Perlu pendampingan ulang pada konsep dasar perkalian bersusun, pecahan, dan penempatan koma desimal. Ulangi bagian Materi Interaktif dan Video Animasi.';
+
+      if (score >= 85) {
+        predikat = 'Sangat Baik';
+        rekomendasi = 'Luar biasa! Kamu telah melampaui KKTP dengan sangat baik. Siap melanjutkan ke tantangan soal HOTS dan pengayaan.';
+      } else if (score >= 70) {
+        predikat = 'Baik';
+        rekomendasi = 'Selamat! Kamu sudah memenuhi KKTP Kurikulum Merdeka. Terus berlatih pada soal cerita pecahan dan desimal agar semakin mahir.';
+      } else if (score >= 50) {
+        predikat = 'Cukup';
+        rekomendasi = 'Sudah cukup baik, namun belum memenuhi batas tuntas minimal (70). Pelajari kembali pembahasan di bawah dan coba kerjakan kuis ulang.';
+      }
+
+      document.getElementById('quiz-question-view').classList.add('hidden');
+      document.getElementById('quiz-summary-view').classList.remove('hidden');
+
+      document.getElementById('report-student-name').textContent = state.studentName;
+      document.getElementById('report-final-score').textContent = score;
+      document.getElementById('report-correct-total').textContent = `${correct} / 10 Soal`;
+      document.getElementById('report-kktp-level').textContent = predikat;
+      document.getElementById('report-recommendation-box').innerHTML = `<strong>📌 Rekomendasi Tindak Lanjut KKTP:</strong> ${rekomendasi}`;
+
+      document.getElementById('report-tp-breakdown').innerHTML = Object.entries(tpStats).map(([key, st]) => {
+        const pct = st.total > 0 ? Math.round((st.ok / st.total) * 100) : 0;
+        return `
+          <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-sm">
+            <p class="text-xs font-black text-blue-700">${key}: ${st.label}</p>
+            <p class="text-sm font-black text-slate-800 mt-1">Benar ${st.ok} dari ${st.total} (${pct}%)</p>
+          </div>
+        `;
+      }).join('');
+
+      // Render Pembahasan
+      document.getElementById('quiz-explanations-list').innerHTML = quizState.items.map((item, idx) => {
+        const userAns = quizState.answers[idx] || 'Tidak dijawab';
+        const isOk = userAns === item.ans;
+        return `
+          <div class="p-4 rounded-2xl border-2 ${isOk ? 'bg-emerald-50/70 border-emerald-200' : 'bg-rose-50/70 border-rose-200'} text-xs sm:text-sm space-y-1">
+            <div class="flex items-center justify-between gap-2">
+              <span class="font-black text-slate-800">${idx + 1}. ${item.q}</span>
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-black shrink-0 ${isOk ? 'bg-emerald-600 text-white' : 'bg-rose-600 text-white'}">
+                ${isOk ? 'Benar ✓' : 'Kurang Tepat ✗'}
+              </span>
+            </div>
+            <p class="text-slate-700">Jawabanmu: <strong>${userAns}</strong> | Kunci Jawaban: <strong class="text-emerald-700">${item.ans}</strong></p>
+            <p class="text-slate-600 italic">💡 Pembahasan: ${item.exp}</p>
+          </div>
+        `;
+      }).join('');
+
+      playSFX('win');
+      speakQuizReport();
+    }
+
+    function speakQuizReport() {
+      const score = document.getElementById('report-final-score').textContent;
+      const predikat = document.getElementById('report-kktp-level').textContent;
+      speakText(`Selamat ${state.studentName}! Nilai kuis evaluasi perkalian kamu adalah ${score}, dengan predikat K K T P ${predikat}.`);
+    }
+
+    /* =======================================================================
+       7. INISIALISASI HALAMAN
+       ======================================================================= */
+    window.addEventListener('DOMContentLoaded', () => {
+      renderNavTabs();
+      renderLongMultiplication();
+      renderFractionGrid();
+      renderDecimalStep();
+      if ('speechSynthesis' in window) window.speechSynthesis.getVoices();
+    });
+
+    window.addEventListener('resize', () => {
+      if (state.activeTab === 'video') initVideoCanvas();
+    });
+  </script>
+</body>
+</html>
